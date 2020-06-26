@@ -45,6 +45,40 @@
         surfaceMesh.position.y = -20;
         scene.add(surfaceMesh);
 
+        var surfaceGeometry = new THREE.PlaneGeometry(100, 20, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#FF0000", side: THREE.DoubleSide});
+        var wall1 = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+        wall1.position.x = 0;
+        wall1.position.y = -10;
+        wall1.position.z = -75;
+        scene.add(wall1);
+
+        var surfaceGeometry = new THREE.PlaneGeometry(100, 20, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#FF0000", side: THREE.DoubleSide});
+        var wall2 = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+        wall2.position.x = 0;
+        wall2.position.y = -10;
+        wall2.position.z = 75;
+        scene.add(wall2);
+
+        var surfaceGeometry = new THREE.PlaneGeometry(150, 20, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#808080", side: THREE.DoubleSide});
+        var wall3 = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+        wall3.rotateY(Math.PI / 2);
+        wall3.position.x = -50;
+        wall3.position.y = -10;
+        wall3.position.z = 0;
+        scene.add(wall3);
+
+        var surfaceGeometry = new THREE.PlaneGeometry(150, 20, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#808080", side: THREE.DoubleSide});
+        var wall4 = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+        wall4.rotateY(Math.PI / 2);
+        wall4.position.x = 50;
+        wall4.position.y = -10;
+        wall4.position.z = 0;
+        scene.add(wall4);
+
 
         var geometry = new THREE.BoxGeometry( 15, 5, 5 );
         var material = new THREE.MeshBasicMaterial( {color: "#800000"} );
