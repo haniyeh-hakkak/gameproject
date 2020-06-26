@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Skeleton</title>
     <script type="text/javascript" src="lib/three.js"></script>
+    <script src="lib/THREEx.KeyboardState.js"></script>
     <style>
         body {
             margin: 0;
@@ -19,6 +20,8 @@
 
 <script type="text/javascript">
     var scene, camera, renderer;
+    var cube, cube2;
+    var keyboard = new THREEx.KeyboardState();
 
     init();
     animate();
@@ -48,14 +51,14 @@
 
         var geometry = new THREE.BoxGeometry( 15, 5, 5 );
         var material = new THREE.MeshBasicMaterial( {color: "#800000"} );
-        var cube = new THREE.Mesh( geometry, material );
+        cube = new THREE.Mesh( geometry, material );
         cube.position.y=-20;
         cube.position.z=-70;
         scene.add( cube );
 
         var geometry = new THREE.BoxGeometry( 15, 5, 5 );
         var material = new THREE.MeshBasicMaterial( {color: "#800000"} );
-        var cube2 = new THREE.Mesh( geometry, material );
+        cube2 = new THREE.Mesh( geometry, material );
         cube2.position.y=-20;
         cube2.position.z=70;
         scene.add( cube2 );
@@ -73,7 +76,18 @@
     }
 
     function animate() {
-
+        if(keyboard.pressed("left") && cube.position.x>-42){
+            cube.position.x -=1;
+        }
+        else if(keyboard.pressed("right") && cube.position.x<42){
+            cube.position.x +=1;
+        }
+        if(keyboard.pressed("A") && cube2.position.x>-42){
+            cube2.position.x -=1;
+        }
+        else if(keyboard.pressed("D") && cube2.position.x<42){
+            cube2.position.x +=1;
+        }
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
     }
