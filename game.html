@@ -40,9 +40,15 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+        var textureground = new THREE.TextureLoader().load('texture/ground-texture2.jpg');
+        textureground.wrapS = THREE.RepeatWrapping;
+        textureground.wrapT = THREE.RepeatWrapping;
+        textureground.magFilter = THREE.LinearFilter;
+        textureground.minFilter = THREE.LinearMipMapLinearFilter;
+
 
         var surfaceGeometry = new THREE.PlaneGeometry(100, 150, 1);
-        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#008000", side: THREE.DoubleSide});
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "0xcccccc", side: THREE.DoubleSide, map:textureground});
         var surfaceMesh = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
         surfaceMesh.rotateX(Math.PI / 2);
         surfaceMesh.position.y = -20;
@@ -97,7 +103,7 @@
         cube2.position.z=70;
         scene.add( cube2 );
 
-        var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+        var geometry = new THREE.SphereGeometry( 2, 32, 32 );
         var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
         var sphere = new THREE.Mesh( geometry, material );
         sphere.position.y= -15;
@@ -106,7 +112,6 @@
         var axesHelper = new THREE.AxisHelper(4);
         axesHelper.rotateY(Math.PI * 3 / 2);
         scene.add(axesHelper);
-
     }
 
     function animate() {
