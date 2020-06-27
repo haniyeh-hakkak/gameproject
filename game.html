@@ -21,6 +21,7 @@
 <script type="text/javascript">
     var scene, camera, renderer;
     var cube, cube2;
+    var  directionalLight, spotLight;
     var keyboard = new THREEx.KeyboardState();
 
     init();
@@ -31,7 +32,7 @@
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 60, 0);
+        camera.position.set(0, 80, 15);
         camera.lookAt(scene.position);
 
 
@@ -39,6 +40,7 @@
         renderer.setClearColor(new THREE.Color(0x000000));
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
+
 
         var textureground = new THREE.TextureLoader().load('texture/ground-texture2.jpg');
         textureground.wrapS = THREE.RepeatWrapping;
@@ -54,56 +56,70 @@
         surfaceMesh.position.y = -20;
         scene.add(surfaceMesh);
 
-        var surfaceGeometry = new THREE.PlaneGeometry(100, 20, 1);
-        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#FF0000", side: THREE.DoubleSide});
+        var texturewall = new THREE.TextureLoader().load('texture/Wall Various-015.jpg');
+        texturewall.wrapS = THREE.RepeatWrapping;
+        texturewall.wrapT = THREE.RepeatWrapping;
+        texturewall.magFilter = THREE.LinearFilter;
+        texturewall.minFilter = THREE.LinearMipMapLinearFilter;
+
+        var texturewall2 = new THREE.TextureLoader().load('texture/Various-007.jpg');
+        texturewall2.repeat.set(2,1);
+        texturewall2.wrapS = THREE.RepeatWrapping;
+        texturewall2.wrapT = THREE.RepeatWrapping;
+        texturewall2.magFilter = THREE.LinearFilter;
+        texturewall2.minFilter = THREE.LinearMipMapLinearFilter;
+
+        var surfaceGeometry = new THREE.PlaneGeometry(100, 10, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#0xcccccc", side: THREE.DoubleSide,  map:texturewall});
         var wall1 = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
         wall1.position.x = 0;
-        wall1.position.y = -10;
+        wall1.position.y = -15;
         wall1.position.z = -75;
         scene.add(wall1);
 
-        var surfaceGeometry = new THREE.PlaneGeometry(100, 20, 1);
-        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#FF0000", side: THREE.DoubleSide});
+        var surfaceGeometry = new THREE.PlaneGeometry(100, 10, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#0xcccccc", side: THREE.DoubleSide,  map:texturewall});
         var wall2 = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
         wall2.position.x = 0;
-        wall2.position.y = -10;
+        wall2.position.y = -15;
         wall2.position.z = 75;
         scene.add(wall2);
 
-        var surfaceGeometry = new THREE.PlaneGeometry(150, 20, 1);
-        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#808080", side: THREE.DoubleSide});
+
+        var surfaceGeometry = new THREE.PlaneGeometry(150, 10, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#808080", side: THREE.DoubleSide ,map:texturewall2});
         var wall3 = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
         wall3.rotateY(Math.PI / 2);
         wall3.position.x = -50;
-        wall3.position.y = -10;
+        wall3.position.y = -15;
         wall3.position.z = 0;
         scene.add(wall3);
 
-        var surfaceGeometry = new THREE.PlaneGeometry(150, 20, 1);
-        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#808080", side: THREE.DoubleSide});
+        var surfaceGeometry = new THREE.PlaneGeometry(150, 10, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "#808080", side: THREE.DoubleSide, map:texturewall2});
         var wall4 = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
         wall4.rotateY(Math.PI / 2);
         wall4.position.x = 50;
-        wall4.position.y = -10;
+        wall4.position.y = -15;
         wall4.position.z = 0;
         scene.add(wall4);
 
 
-        var geometry = new THREE.BoxGeometry( 15, 5, 5 );
+        var geometry = new THREE.BoxGeometry( 15, 7, 5 );
         var material = new THREE.MeshBasicMaterial( {color: "#800000"} );
         cube = new THREE.Mesh( geometry, material );
-        cube.position.y=-20;
+        cube.position.y=-15;
         cube.position.z=-70;
         scene.add( cube );
 
-        var geometry = new THREE.BoxGeometry( 15, 5, 5 );
+        var geometry = new THREE.BoxGeometry( 15, 7, 5 );
         var material = new THREE.MeshBasicMaterial( {color: "#800000"} );
         cube2 = new THREE.Mesh( geometry, material );
-        cube2.position.y=-20;
+        cube2.position.y=-15;
         cube2.position.z=70;
         scene.add( cube2 );
 
-        var geometry = new THREE.SphereGeometry( 2, 32, 32 );
+        var geometry = new THREE.SphereGeometry( 3, 32, 32 );
         var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
         var sphere = new THREE.Mesh( geometry, material );
         sphere.position.y= -15;
