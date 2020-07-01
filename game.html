@@ -41,7 +41,7 @@
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera(110, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 85, 15);
+        camera.position.set(0, 60, 0);
         camera.lookAt(scene.position);
 
 
@@ -212,26 +212,38 @@
     }
 
     function updatePhysics() {
-
-
         world.step(timeStep);
-
 
         ballMesh.position.copy(ballBody.position);
         ballMesh.quaternion.copy(ballBody.quaternion);
     }
 
+    function getRandom(){
+        var x;
+        while(1) {
+            x = Math.random()*2-0.5 ;
+            if(1.4<x<2 || -2<x<-1.4){
+                return x;
+            }
+        }
+
+    }
     function startTheGame() {
-        shootingDirection = new THREE.Vector3(2,0,2);
-        shootingVelocity = 15;
+
+        var x = getRandom();
+        var z = getRandom();
+
+        shootingDirection = new THREE.Vector3(1,0,1);
+        shootingDirection.x = getRandom();
+        shootingDirection.z = getRandom();
+
+        shootingVelocity = 45;
         ballBody.velocity.set(
             shootingDirection.x * shootingVelocity,
             shootingDirection.y * shootingVelocity,
             shootingDirection.z * shootingVelocity);
-
-
-
     }
+
     window.addEventListener("keydown",function (event) {
         if(event.keyCode == 32){
             startTheGame();
