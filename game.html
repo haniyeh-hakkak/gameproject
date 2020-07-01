@@ -28,6 +28,7 @@
     var directionalLight, spotLight;
     var keyboard = new THREEx.KeyboardState();
     var surfaceMesh, ballMesh, ballBody, groundBody, groundShape, cannonDebugRenderer,timeStep = 1/60;
+    var shootingDirection,shootingVelocity;
 
     var phsyicRenderer = false;
 
@@ -175,21 +176,18 @@
 
 
 
-//  ground body
+        //  ground body
         groundShape = new CANNON.Plane();
         groundBody = new CANNON.Body({mass: 0,material:physicMaterial});
         groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
         groundBody.addShape(groundShape);
         world.add(groundBody);
 
-        // groundBody.position.copy(surfaceMesh.position);
-        // groundBody.quaternion.copy(surfaceMesh.quaternion);
-
         //ball body
         var ballShape = new CANNON.Sphere(3);
         ballBody = new CANNON.Body({mass: 2});
         ballBody.addShape(ballShape);
-        ballBody.position.set(0,105,0);
+        ballBody.position.set(0,5,0);
         world.add(ballBody);
 
 
@@ -222,6 +220,25 @@
         ballMesh.position.copy(ballBody.position);
         ballMesh.quaternion.copy(ballBody.quaternion);
     }
+
+    function startTheGame() {
+        shootingDirection = new THREE.Vector3(2,0,2);
+        shootingVelocity = 15;
+        ballBody.velocity.set(
+            shootingDirection.x * shootingVelocity,
+            shootingDirection.y * shootingVelocity,
+            shootingDirection.z * shootingVelocity);
+
+
+
+    }
+    window.addEventListener("keydown",function (event) {
+        if(event.keyCode == 32){
+            startTheGame();
+        }
+
+    });
+
 
 </script>
 </body>
