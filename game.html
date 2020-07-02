@@ -41,7 +41,7 @@
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera(110, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 60, 0);
+        camera.position.set(0, 75, 15);
         camera.lookAt(scene.position);
 
 
@@ -69,14 +69,15 @@
         //surfaceMesh.position.y = -20;
         scene.add(surfaceMesh);
 
-        var texturewall = new THREE.TextureLoader().load('texture/Wall Various-015.jpg');
+        var texturewall = new THREE.TextureLoader().load('texture/images.jpg');
+        texturewall.repeat.set(2,1);
         texturewall.wrapS = THREE.RepeatWrapping;
         texturewall.wrapT = THREE.RepeatWrapping;
         texturewall.magFilter = THREE.LinearFilter;
         texturewall.minFilter = THREE.LinearMipMapLinearFilter;
 
-        var texturewall2 = new THREE.TextureLoader().load('texture/Various-007.jpg');
-        texturewall2.repeat.set(2, 1);
+        var texturewall2 = new THREE.TextureLoader().load('texture/wall2.jpg');
+        texturewall2.repeat.set(3,1);
         texturewall2.wrapS = THREE.RepeatWrapping;
         texturewall2.wrapT = THREE.RepeatWrapping;
         texturewall2.magFilter = THREE.LinearFilter;
@@ -100,7 +101,7 @@
 
 
         var wall3Geometry = new THREE.PlaneGeometry(150, 10, 1);
-        var wall3Material = new THREE.MeshBasicMaterial({color: "#808080", side: THREE.DoubleSide, map: texturewall2});
+        var wall3Material = new THREE.MeshBasicMaterial({color: "#0xcccccc", side: THREE.DoubleSide, map: texturewall2});
         var wall3 = new THREE.Mesh(wall3Geometry, wall3Material);
         wall3.rotateY(Math.PI / 2);
         wall3.position.x = -50;
@@ -109,7 +110,7 @@
         scene.add(wall3);
 
         var wall4Geometry = new THREE.PlaneGeometry(150, 10, 1);
-        var wall4Material = new THREE.MeshBasicMaterial({color: "#808080", side: THREE.DoubleSide, map: texturewall2});
+        var wall4Material = new THREE.MeshBasicMaterial({color: "#0xcccccc", side: THREE.DoubleSide, map: texturewall2});
         var wall4 = new THREE.Mesh(wall4Geometry, wall4Material);
         wall4.rotateY(Math.PI / 2);
         wall4.position.x = 50;
@@ -132,8 +133,15 @@
         cube2.position.z = 70;
         scene.add(cube2);
 
+        var textureball = new THREE.TextureLoader().load('texture/tennisball2.jpg');
+        textureball.wrapS = THREE.RepeatWrapping;
+        textureball.wrapT = THREE.RepeatWrapping;
+        textureball.magFilter = THREE.LinearFilter;
+        textureball.minFilter = THREE.LinearMipMapLinearFilter;
+
+
         var ballGeometry = new THREE.SphereGeometry(3,16,16);
-        var ballMaterial = new THREE.MeshBasicMaterial({color: 0xffff00});
+        var ballMaterial = new THREE.MeshBasicMaterial({color:"#0xcccccc" , map:textureball});
         ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
         ballMesh.position.y = 5;
         scene.add(ballMesh);
