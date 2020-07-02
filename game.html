@@ -43,11 +43,7 @@
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera(110, window.innerWidth / window.innerHeight, 0.1, 1000);
-<<<<<<< HEAD
         camera.position.set(0, 75, 15);
-=======
-        camera.position.set(0, 85, 15);
->>>>>>> 556104b1114b53228cb7b0588cb82dcbd7bd312c
         camera.lookAt(scene.position);
 
 
@@ -57,7 +53,7 @@
         document.body.appendChild(renderer.domElement);
 
 
-        var textureground = new THREE.TextureLoader().load('texture/ground-texture2.jpg');
+        var textureground = new THREE.TextureLoader().load('texture/playgroundtexture.jpg');
         textureground.wrapS = THREE.RepeatWrapping;
         textureground.wrapT = THREE.RepeatWrapping;
         textureground.magFilter = THREE.LinearFilter;
@@ -65,14 +61,24 @@
 
 
         var surfaceGeometry = new THREE.PlaneGeometry(100, 150, 1);
-        var surfaceMaterial = new THREE.MeshBasicMaterial({
-            color: "0xcccccc",
-            side: THREE.DoubleSide,
-            map: textureground
-        });
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "0xcccccc", side: THREE.DoubleSide, map: textureground});
         surfaceMesh = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
         surfaceMesh.rotateX(Math.PI / 2);
         //surfaceMesh.position.y = -20;
+        scene.add(surfaceMesh);
+
+        var textureground2 = new THREE.TextureLoader().load('texture/grassground.jpg');
+        textureground2.repeat.set(10,5);
+        textureground2.wrapS = THREE.RepeatWrapping;
+        textureground2.wrapT = THREE.RepeatWrapping;
+        textureground2.magFilter = THREE.LinearFilter;
+        textureground2.minFilter = THREE.LinearMipMapLinearFilter;
+
+        var surfaceGeometry = new THREE.PlaneGeometry(700, 350, 1);
+        var surfaceMaterial = new THREE.MeshBasicMaterial({color: "0xcccccc", side: THREE.DoubleSide,map:textureground2});
+        surfaceMesh = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+        surfaceMesh.rotateX(Math.PI / 2);
+        surfaceMesh.position.y = -5;
         scene.add(surfaceMesh);
 
         var texturewall = new THREE.TextureLoader().load('texture/images.jpg');
@@ -82,7 +88,7 @@
         texturewall.magFilter = THREE.LinearFilter;
         texturewall.minFilter = THREE.LinearMipMapLinearFilter;
 
-        var texturewall2 = new THREE.TextureLoader().load('texture/wall2.jpg');
+        var texturewall2 = new THREE.TextureLoader().load('texture/images.jpg');
         texturewall2.repeat.set(3,1);
         texturewall2.wrapS = THREE.RepeatWrapping;
         texturewall2.wrapT = THREE.RepeatWrapping;
@@ -174,7 +180,7 @@
             world.solver = new CANNON.SplitSolver(solver);
         else
             world.solver = solver;
-        world.gravity.set(0, -9.82, 0);
+        world.gravity.set(0, -9.86, 0);
         world.broadphase = new CANNON.NaiveBroadphase();
 
 
@@ -248,14 +254,14 @@
     }
 
     function animate() {
-        if (keyboard.pressed("left") && cube.position.x > -42) {
+        if (keyboard.pressed("A") && cube.position.x > -42) {
             cube.position.x -= 1;
-        } else if (keyboard.pressed("right") && cube.position.x < 42) {
+        } else if (keyboard.pressed("D") && cube.position.x < 42) {
             cube.position.x += 1;
         }
-        if (keyboard.pressed("A") && cube2.position.x > -42) {
+        if (keyboard.pressed("left") && cube2.position.x > -42) {
             cube2.position.x -= 1;
-        } else if (keyboard.pressed("D") && cube2.position.x < 42) {
+        } else if (keyboard.pressed("right") && cube2.position.x < 42) {
             cube2.position.x += 1;
         }
 
@@ -274,20 +280,22 @@
 
         rocket1_body.position.copy(cube.position);
         rocket1_body.quaternion.copy(cube.quaternion);
+
         rocket2_body.position.copy(cube2.position);
         rocket2_body.quaternion.copy(cube2.quaternion);
     }
 
-    function getRandom(){
+    function getRandom() {
         var x;
-        while(1) {
-            x = Math.random()*2-0.5 ;
-            if(1.4<x<2 || -2<x<-1.4){
+        while (1) {
+            x = Math.random() * 3 - 1;
+            if (0 < x < 2) {
                 return x;
             }
         }
-
     }
+
+
     function startTheGame() {
         var x = getRandom();
         var z = getRandom();
