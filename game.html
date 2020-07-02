@@ -28,6 +28,8 @@
     var directionalLight, spotLight;
     var keyboard = new THREEx.KeyboardState();
     var surfaceMesh, ballMesh, ballBody, groundBody, groundShape, cannonDebugRenderer,timeStep = 1/60;
+    var wall1_Body, wall1_Shape, wall2_Body, wall2_Shape, wall3_Body, wall3_Shape,  wall4_Body, wall4_Shape;
+    var rocket1_body, rocket1_shape, rocket2_body, rocket2_shape;
     var shootingDirection,shootingVelocity;
 
     var phsyicRenderer = false;
@@ -41,7 +43,11 @@
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera(110, window.innerWidth / window.innerHeight, 0.1, 1000);
+<<<<<<< HEAD
         camera.position.set(0, 75, 15);
+=======
+        camera.position.set(0, 85, 15);
+>>>>>>> 556104b1114b53228cb7b0588cb82dcbd7bd312c
         camera.lookAt(scene.position);
 
 
@@ -182,14 +188,53 @@
         });
         world.addContactMaterial(groundContactMaterial);
 
-
-
         //  ground body
         groundShape = new CANNON.Plane();
         groundBody = new CANNON.Body({mass: 0,material:physicMaterial});
         groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
         groundBody.addShape(groundShape);
         world.add(groundBody);
+
+        var halfExtents_wall1 = new CANNON.Vec3(50,2,0.5);
+        wall1_Shape = new CANNON.Box(halfExtents_wall1);
+        wall1_Body = new CANNON.Body({mass:0, material: physicMaterial});
+        wall1_Body.addShape(wall1_Shape);
+        wall1_Body.position.set(0,5,-75);
+        world.add(wall1_Body);
+
+        var halfExtents_wall2 = new CANNON.Vec3(50,2,0.5);
+        wall2_Shape = new CANNON.Box(halfExtents_wall2);
+        wall2_Body = new CANNON.Body({mass:0, material: physicMaterial});
+        wall2_Body.addShape(wall2_Shape);
+        wall2_Body.position.set(0,5,75);
+        world.add(wall2_Body);
+
+        var halfExtents_wall3 = new CANNON.Vec3(0.5,5,75);
+        wall3_Shape = new CANNON.Box(halfExtents_wall3);
+        wall3_Body = new CANNON.Body({mass:0, material: physicMaterial});
+        wall3_Body.addShape(wall3_Shape);
+        wall3_Body.position.set(-50,5,0);
+        world.add(wall3_Body);
+
+        var halfExtents_wall4 = new CANNON.Vec3(0.5,5,75);
+        wall4_Shape = new CANNON.Box(halfExtents_wall4);
+        wall4_Body = new CANNON.Body({mass:0, material: physicMaterial});
+        wall4_Body.addShape(wall4_Shape);
+        wall4_Body.position.set(50,5,0);
+        world.add(wall4_Body);
+
+        rocket1_shape = new CANNON.Box(new CANNON.Vec3(7.5, 3.5, 2.5));
+        rocket1_body = new CANNON.Body({mass:0});
+        rocket1_body.addShape(rocket1_shape);
+        rocket1_body.position.set(0,5,-70);
+        world.add(rocket1_body);
+
+        rocket2_shape = new CANNON.Box(new CANNON.Vec3(7.5, 3.5, 2.5));
+        rocket2_body = new CANNON.Body({mass:0});
+        rocket2_body.addShape(rocket2_shape);
+        rocket2_body.position.set(0,5,70);
+        world.add(rocket2_body);
+
 
         //ball body
         var ballShape = new CANNON.Sphere(3);
@@ -213,6 +258,8 @@
         } else if (keyboard.pressed("D") && cube2.position.x < 42) {
             cube2.position.x += 1;
         }
+
+
         updatePhysics();
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
@@ -224,6 +271,11 @@
 
         ballMesh.position.copy(ballBody.position);
         ballMesh.quaternion.copy(ballBody.quaternion);
+
+        rocket1_body.position.copy(cube.position);
+        rocket1_body.quaternion.copy(cube.quaternion);
+        rocket2_body.position.copy(cube2.position);
+        rocket2_body.quaternion.copy(cube2.quaternion);
     }
 
     function getRandom(){
@@ -237,7 +289,6 @@
 
     }
     function startTheGame() {
-
         var x = getRandom();
         var z = getRandom();
 
@@ -251,9 +302,10 @@
             shootingDirection.y * shootingVelocity,
             shootingDirection.z * shootingVelocity);
     }
-
+    var check_start=0;
     window.addEventListener("keydown",function (event) {
-        if(event.keyCode == 32){
+        if(event.keyCode == 32 && check_start !=1){
+            check_start = 1;
             startTheGame();
         }
 
