@@ -39,6 +39,7 @@
     init();
     initCannon();
     animate();
+    startBackgroundMusic();
 
     function init() {
 
@@ -147,7 +148,7 @@
         cube = new THREE.Mesh(rocket1Geometry, rocket1Material);
         cube.position.y = 5;
         cube.position.z = -70;
-        collidables.push(cube);
+        // collidables.push(cube);
         scene.add(cube);
 
         var roket2Geometry = new THREE.BoxGeometry(15, 7, 5);
@@ -155,7 +156,7 @@
         cube2 = new THREE.Mesh(roket2Geometry, roket2Material);
         cube2.position.y = 5;
         cube2.position.z = 70;
-        collidables.push(cube2);
+        // collidables.push(cube2);
         scene.add(cube2);
 
         var textureball = new THREE.TextureLoader().load('texture/tennisball2.jpg');
@@ -190,7 +191,7 @@
             world.solver = new CANNON.SplitSolver(solver);
         else
             world.solver = solver;
-        world.gravity.set(0, -9.86, 0);
+        world.gravity.set(0, -90.86, 0);
         world.broadphase = new CANNON.NaiveBroadphase();
 
 
@@ -306,6 +307,20 @@
         }
     }
 
+    function startBackgroundMusic() {
+        var listener = new THREE.AudioListener();
+        var audioLoader = new THREE.AudioLoader();
+        var soundX = new THREE.PositionalAudio(listener);
+        audioLoader.load('backgroundsound.mp3', function (buffer) {
+            soundX.setBuffer(buffer);
+            soundX.setRefDistance(15);
+            soundX.play();;
+        });
+        scene.add(soundX);
+        camera.add(listener);
+
+    }
+
 
     function startTheGame() {
         var x = getRandom();
@@ -320,6 +335,7 @@
             shootingDirection.x * shootingVelocity,
             shootingDirection.y * shootingVelocity,
             shootingDirection.z * shootingVelocity);
+
     }
 
     function checkCollision(ballMesh) {
@@ -330,20 +346,15 @@
             var globalVertex = localVertex.applyMatrix4(ballMesh.matrix);
             var directionVector = globalVertex.sub(ballMesh.position);
 
+
             var ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
             var collisionResults = ray.intersectObjects(collidables);
 
+            if(ballBody.position.y>8){
+                ballBody.position.y =3;
+            }
             if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()){
-               // console.log(ballMesh.position);
-                if(ballBody.position.y>8){
-                    ballBody.position.y =3;
-                }
-                if(ballBody.velocity.x<7 && ballBody.velocity.z<7){
-                    ballBody.velocity.x *= 1.04;
-                    ballBody.velocity.y = 0;
-                    ballBody.velocity.z *= 1.04;
-                }
-                console.log("done");
+
             }
         }
     }
