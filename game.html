@@ -72,7 +72,7 @@
 <script type="text/javascript">
     var scene, camera, renderer;
     var cube, cube2, world;
-    var directionalLight, spotLight;
+    var directionalLight, spotLight, ambientLight;
     var keyboard = new THREEx.KeyboardState();
     var surfaceMesh, ballMesh, ballBody, groundBody, groundShape, cannonDebugRenderer,timeStep = 1/60;
     var wall1_Body, wall1_Shape, wall2_Body, wall2_Shape, wall3_Body, wall3_Shape,  wall4_Body, wall4_Shape;
@@ -109,7 +109,7 @@
         stats = createStats();
         document.body.appendChild( stats.domElement );
 
-        var ambientLight = new THREE.AmbientLight(0xffffff, 1);
+        ambientLight = new THREE.AmbientLight(0xffffff, 1);
         scene.add(ambientLight);
 
 
@@ -123,8 +123,9 @@
         directionalLight.shadow.camera.bottom = -550;
         directionalLight.shadow.mapSize.width = 2048;
         directionalLight.shadow.mapSize.height = 2048;
-        directionalLight.position.set(3,10,-5);
+        directionalLight.position.set(3,25,-5);
         scene.add(directionalLight);
+
 
 
         var textureground = new THREE.TextureLoader().load('texture/playgroundtexture.jpg');
@@ -280,7 +281,7 @@
             world.solver = new CANNON.SplitSolver(solver);
         else
             world.solver = solver;
-        world.gravity.set(0, -90.86, 0);
+        world.gravity.set(0, -10, 0);
         world.broadphase = new CANNON.NaiveBroadphase();
 
 
@@ -349,6 +350,20 @@
         ballBody.position.set(0,5,0);
         world.add(ballBody);
 
+
+    }
+
+    function startBackgroundMusic() {
+        var listener = new THREE.AudioListener();
+        var audioLoader = new THREE.AudioLoader();
+        var soundX = new THREE.PositionalAudio(listener);
+        audioLoader.load('music/background.mp3', function (buffer) {
+            soundX.setBuffer(buffer);
+            soundX.setRefDistance(15);
+            soundX.play();
+        });
+        scene.add(soundX);
+        camera.add(listener);
 
     }
 
@@ -451,10 +466,13 @@
                     $("#win").fadeIn(1000);
                     $("#gameover").fadeIn(1000);
                 });
+
+                ambientLight.intensity = 0.2;
                 gameover_text.style.display = "block";
                 gameover_text.innerText = "GAME OVER";
                 win_text.style.display ="block";
                 win_text.innerText = "Player 2 is the winner :)";
+
 
             }
         }
@@ -479,6 +497,8 @@
                     $("#win").fadeIn(1000);
                     $("#gameover").fadeIn(1000);
                 });
+
+                ambientLight.intensity = 0.2;
                 gameover_text.style.display = "block";
                 gameover_text.innerText = "GAME OVER";
                 win_text.style.display ="block";
@@ -494,6 +514,7 @@
         if(event.keyCode == 32 && check_start !=1){
             check_start = 1;
             startTheGame();
+            startBackgroundMusic();
         }
 
     });
