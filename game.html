@@ -21,6 +21,12 @@
             font-family: OCRAEXT;
             src: url("font/OCRAEXT.ttf");
         }
+        @font-face {
+            font-family: STENCIL;
+            src: url("font/STENCIL.ttf");
+        }
+
+
         body {
             margin: 0;
             overflow: hidden;
@@ -36,10 +42,11 @@
             font-size: 110px;
             background-color: mediumorchid;
             border: 3px solid indigo;
+            color: indigo;
             padding: 30px;
             border-radius: 40px;
             font-family: SHOWG;
-            color: indigo;
+
             z-index: 100;
 
         }
@@ -73,6 +80,21 @@
             z-index: 100;
             cursor: pointer;
         }
+
+        #start{
+            display: block;
+            position: absolute;
+            top: calc(40% - 1px);
+            right: calc(30% - 15px);
+            font-size: 50px;
+            background-color: yellow;
+            border: 3px solid orangered;
+            color: orangered;
+            padding: 40px;
+            border-radius: 30px;
+            font-family: STENCIL;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
@@ -83,6 +105,7 @@
 <div id="win"></div>
 <div id="gameover"></div>
 <div id="restart"></div>
+<div id="start"></div>
 
 <script type="text/javascript">
     var scene, camera, renderer;
@@ -460,6 +483,7 @@
     var win_text = document.getElementById("win");
     var gameover_text = document.getElementById("gameover");
     var restart_text = document.getElementById("restart");
+    var start_text = document.getElementById("start");
 
     function checkCollision(ballMesh) {
 
@@ -531,14 +555,18 @@
             }
         }
     }
-
+            start_text.innerText = "Press Space to start";
 
     var check_start=0;
     window.addEventListener("keydown",function (event) {
         if(event.keyCode == 32 && check_start !=1){
             check_start = 1;
-            startTheGame();
+            $(document).ready(function() {
+                $("#start").fadeOut(500);
+            });
             startBackgroundMusic();
+            startTheGame();
+
         }
 
     });
