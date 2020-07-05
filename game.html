@@ -58,7 +58,21 @@
             font-family: OCRAEXT;
             z-index: 100;
         }
-
+        #restart{
+            display: none;
+            position: absolute;
+            top: calc(60% + 50px);
+            right: calc(45% - 30px);
+            font-size: 35px;
+            background-color:darkcyan ;
+            border: 3px solid darkblue;
+            color: darkblue;
+            padding: 20px;
+            border-radius: 30px;
+            font-family: OCRAEXT;
+            z-index: 100;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -66,8 +80,9 @@
 
 <div id="WebGL-output">
 </div>
-<div id="win" ></div>
-<div id="gameover" ></div>
+<div id="win"></div>
+<div id="gameover"></div>
+<div id="restart"></div>
 
 <script type="text/javascript">
     var scene, camera, renderer;
@@ -444,6 +459,7 @@
 
     var win_text = document.getElementById("win");
     var gameover_text = document.getElementById("gameover");
+    var restart_text = document.getElementById("restart");
 
     function checkCollision(ballMesh) {
 
@@ -465,15 +481,18 @@
                 $(document).ready(function() {
                     $("#win").fadeIn(1000);
                     $("#gameover").fadeIn(1000);
+                    $("#restart").fadeIn(1000);
+                    $("#restart").click(function () {
+                        location.reload();
+                    })
                 });
-
                 ambientLight.intensity = 0.2;
                 gameover_text.style.display = "block";
                 gameover_text.innerText = "GAME OVER";
                 win_text.style.display ="block";
                 win_text.innerText = "Player 2 is the winner :)";
-
-
+                restart_text.style.display = "block";
+                restart_text.innerText = "RESTART";
             }
         }
     }
@@ -496,6 +515,10 @@
                 $(document).ready(function() {
                     $("#win").fadeIn(1000);
                     $("#gameover").fadeIn(1000);
+                    $("#restart").fadeIn(1000);
+                    $("#restart").click(function () {
+                        location.reload();
+                    })
                 });
 
                 ambientLight.intensity = 0.2;
@@ -503,7 +526,8 @@
                 gameover_text.innerText = "GAME OVER";
                 win_text.style.display ="block";
                 win_text.innerText = "Player 1 is the winner :)";
-
+                restart_text.style.display = "block";
+                restart_text.innerText = "RESTART";
             }
         }
     }
